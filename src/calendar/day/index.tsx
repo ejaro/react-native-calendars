@@ -12,13 +12,19 @@ import BasicDay, {BasicDayProps} from './basic';
 import PeriodDay from './period';
 
 function areEqual(prevProps: DayProps, nextProps: DayProps) {
-  const prevPropsWithoutMarkDates = omit(prevProps, 'marking');
-  const nextPropsWithoutMarkDates = omit(nextProps, 'marking');
+  const propsToOmit = ['marking', 'onPress', 'onLongPress', 'dayComponent', 'theme'];
+  const prevPropsWithoutMarkDates = omit(prevProps, propsToOmit);
+  const nextPropsWithoutMarkDates = omit(nextProps, propsToOmit);
   const didPropsChange = some(prevPropsWithoutMarkDates, function (value, key) {
     return value !== nextPropsWithoutMarkDates[key];
   });
+  const isThemeEqual = isEqual(prevProps.theme, nextProps.theme);
   const isMarkingEqual = isEqual(prevProps.marking, nextProps.marking);
-  return !didPropsChange && isMarkingEqual;
+
+  // TODO: We still need to compare the onPress and onLongPress callbacks as it is required for the expandable calendars
+  // TODO: Test cases are faling for the expandable calendars because of this
+
+  return !didPropsChange && isMarkingEqual && isThemeEqual;
 }
 
 export interface DayProps extends BasicDayProps {
