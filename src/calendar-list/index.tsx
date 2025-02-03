@@ -70,6 +70,8 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
     firstDay,
     markedDates,
     headerStyle,
+    customStaticHeader,
+    customStaticFooter,
     onMonthChange,
     onVisibleMonthsChange,
     /** CalendarList props */
@@ -298,7 +300,9 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
   ]);
 
   return (
-    <View style={style.current.flatListContainer} testID={testID}>
+    // <View style={style.current.flatListContainer} testID={testID}>
+    <>
+      {customStaticHeader}
       <FlatList
         // @ts-expect-error
         ref={list}
@@ -330,7 +334,9 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
         onScrollEndDrag={onScrollEndDrag}
       />
       {renderStaticHeader()}
-    </View>
+      {customStaticFooter}
+    </>
+    // </View>
   );
 };
 
